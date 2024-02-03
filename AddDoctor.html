@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./AddDoctor.css">
+    <title>Doctor Finder</title>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Enter Doctor Details</h2>
+        <form id="doctorForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required><br><br>
+
+            <label for="occupation">Occupation:</label>
+            <input type="text" id="occupation" required><br><br>
+
+            <label for="education">Education:</label>
+            <input type="text" id="education" required><br><br>
+
+            <label for="specialist">Specialist:</label>
+            <input type="text" id="specialist" required><br><br>
+
+            <label for="imageFile">Choose Image:</label><br>
+            <input type="file" id="imageFile" accept="image/*" required><br><br>
+
+            <input class="sbutton" id="saveDoctor" type="submit" value="Submit">
+
+        </form>
+    </div>
+    
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        Doctor details saved successfully
+    </div>
+</body>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBYZncpBPbefy397jxXD4ROzs-kl-SxV7Q",
+        authDomain: "satish1-6088a.firebaseapp.com",
+        projectId: "satish1-6088a",
+        storageBucket: "satish1-6088a.appspot.com",
+        messagingSenderId: "536634587522",
+        appId: "1:536634587522:web:14bc09ce2696055c4c779b",
+        measurementId: "G-QTRT3TG0H6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const storage = getStorage(app);
+
+    document.getElementById('saveDoctor').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // Show loading overlay
+        document.getElementById('loadingOverlay').style.display = 'flex';
+
+        const name = document.getElementById('name').value;
+        const occupation = document.getElementById('occupation').value;
+        const education = document.getElementById('education').value;
+        const specialist = document.getElementById('specialist').value;
+        const imageFile = document.getElementById('imageFile').files[0];
+
+        if (!name || !occupation || !education || !specialist || !imageFile) {
+            alert('Please fill in all fields and select an image.');
+            // Hide loading overlay if validation fails
+            document.getElementById('loadingOverlay').style.display = 'none';
+            return;
+        }
+
+        uploadBytes(storageRef(storage, `doctor_images/${name}_${Date.now()}`), imageFile)
+            .then((snapshot) => getDownloadURL(snapshot.ref))
+            .then((downloadURL) => {
+                const doctorsRef = ref(database, 'doctors');
+                push(doctorsRef, {
+                    name: name,
+                    occupation: occupation,
+                    education: education,
+                    specialist: specialist,
+                    image: downloadURL
+                });
+            })
+            .then(() => {
+                // Display success message
+                document.getElementById('successMessage').style.display = 'block';
+
+                // Reset the form after a delay (you can adjust the delay as needed)
+                setTimeout(() => {
+                    document.getElementById('doctorForm').reset();
+                    // Hide success message after the form is reset
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 2000); // 2000 milliseconds (2 seconds)
+            })
+            .catch((error) => {
+                alert("Error adding doctor details: " + error);
+            })
+            .finally(() => {
+                // Hide loading overlay after the process is complete
+                document.getElementById('loadingOverlay').style.display = 'none';
+            });
+    });
+</script>
+
+</html>

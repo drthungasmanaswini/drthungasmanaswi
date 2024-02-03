@@ -1,0 +1,50 @@
+.card{
+    height:1000px;
+    width: 655px;
+    background-color: rgba(255,255,255,0.9);
+    float:right;
+    text-align:center;
+    border-radius: 3%;
+    margin-top: 3%;
+    margin-bottom:10%;
+    margin-right: 5%;
+    border-radius: 4%;
+}
+.mission{
+    font-size: 35px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 1000;
+    text-decoration: underline 2px ;
+    color:brown;
+    text-align: center;
+    background-color: peachpuff;
+
+}
+.par{
+    margin-right:15%;
+    width: 500px;
+    text-align: center;
+    margin-left:15%;
+    font-weight: 580;
+  font-family:'Times New Roman', Times, serif;
+  font-size: 19px;
+}
+.card-title{
+    text-align: left;
+    font-size: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif ;
+    font-weight: 600;
+    margin-left: 5%;
+}
+.nm{
+    color: lightseagreen;
+    font-size:15px ;
+    font-weight: 600;
+    text-align: left;
+    margin-left: 8%;
+}
+.p{
+    text-align: center;
+    margin-left: 20%;
+    margin-right: 20%;
+}

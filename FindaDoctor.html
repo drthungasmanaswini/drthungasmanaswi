@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./FindaDoctor.css">
+    <title>Doctor Finder</title>
+    
+</head>
+
+<body>
+
+    <div id="doctorList" class="form-container">
+        <!-- Doctor details will be displayed here -->
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYZncpBPbefy397jxXD4ROzs-kl-SxV7Q",
+            authDomain: "satish1-6088a.firebaseapp.com",
+            projectId: "satish1-6088a",
+            storageBucket: "satish1-6088a.appspot.com",
+            messagingSenderId: "536634587522",
+            appId: "1:536634587522:web:14bc09ce2696055c4c779b",
+            measurementId: "G-QTRT3TG0H6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Reference to the 'doctors' node in the database
+        const doctorsRef = ref(database, 'doctors');
+
+        // Listen for changes in the 'doctors' node
+        onValue(doctorsRef, (snapshot) => {
+            const doctorListContainer = document.getElementById('doctorList');
+            doctorListContainer.innerHTML = ''; // Clear previous content
+
+            // Iterate over each doctor in the database
+            snapshot.forEach((childSnapshot) => {
+                const doctorData = childSnapshot.val();
+
+                // Create a card for each doctor
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                // Display doctor details in the card
+                card.innerHTML = `
+                    <img src="${doctorData.image}" alt="${doctorData.name}">
+                    <h3>Name:${doctorData.name}</h3>
+                    <p>Occupation:${doctorData.occupation}</p>
+                    <p>Educatio:${doctorData.education}</p>
+                    <p>Specialist:${doctorData.specialist}</p>
+                `;
+
+                // Append the card to the container
+                doctorListContainer.appendChild(card);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

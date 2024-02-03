@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Blogs.css">
+    <title>Blogs</title>
+</head>
+
+<body>
+    <h1>BLOGS</h1>
+        <!-- New div to display retrieved images -->
+        <div id="imageGallery"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYZncpBPbefy397jxXD4ROzs-kl-SxV7Q",
+            authDomain: "satish1-6088a.firebaseapp.com",
+            projectId: "satish1-6088a",
+            storageBucket: "satish1-6088a.appspot.com",
+            messagingSenderId: "536634587522",
+            appId: "1:536634587522:web:14bc09ce2696055c4c779b",
+            measurementId: "G-QTRT3TG0H6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Function to retrieve and display images
+        function retrieveImages() {
+            const imageGallery = document.getElementById('imageGallery');
+
+            // Reference to the 'hospitalImg' node in the Realtime Database
+            const imagesRef = ref(database, 'hospitalImg');
+
+            // Listen for changes in the data
+            onValue(imagesRef, (snapshot) => {
+                imageGallery.innerHTML = ''; // Clear existing images
+
+                // Loop through each image in the database
+                snapshot.forEach((childSnapshot) => {
+                    const imageURL = childSnapshot.val().image;
+
+                    // Create an image element and set its source to the URL
+                    const imgElement = document.createElement('img');
+                    imgElement.src = imageURL;
+                    imgElement.className = 'imgBox';
+
+                    // Append the image to the imageGallery div
+                    imageGallery.appendChild(imgElement);
+                });
+            });
+        }
+
+        // Call the retrieveImages function to initially load images
+        retrieveImages();
+
+    </script>
+</body>
+
+</html>

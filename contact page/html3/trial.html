@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="trial.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            position: relative;
+        }
+
+
+        h2:before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #24a376 100px, #24a376 100px, #bababa 100px);
+            width: 100%;
+            max-width: 150px;
+            border-radius: 28px;
+            animation: ttl 2s forwards;
+            
+        }
+
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h3>
+            <main>
+                <form>
+                    <h2>CONTACT US</h2>
+                    <!-- Animation below Contact Us text -->
+                    <div id="animation-line"></div>
+                    <div class="container">
+                        <div class="class1">
+                            <label for="username">Name<br></label>
+                            <input type="text" id="username" ><br>
+                            <label for="email"><br>Email<br></label>
+                            <input type="email" id="email"><br>
+                            <label for="number "><br>Phone Number<br></label>
+                            <input type="phone number" id="number"><br>
+                            <label for="subject "><br>Subject<br></label>
+                            <input type="subject" id="subject"><br><br>
+                            <label for="Message">Message<br></label>
+                            <textarea type="message" id="Message" rows="5" cols="40"></textarea><br><br>
+
+                            <button type="submit" id="submit" style="background-color: #24a376;border-radius:20px; color:white; width: 90px; height:40px; font-weight:bold; font-size:medium;border: 1px;">Submit</button><br><br>
+                        </div>
+                        <div class="new">
+                            <div class="class2">
+                                <div class="telephone-box">
+                                    <div class="logo-container">
+                                        <img src="phn.jpg" alt="Logo">
+                                    </div>
+                                    <p class="telephone-number">Call Centre:+ 74110 82200<br>
+                                        Opening hours from 06.30 am – 10:00 pm</p>
+                                </div>
+                            </div>
+                            <div class="class3">
+                                <div class="mail">
+                                    <div class="logo-container">
+                                        <img src="mail.jpg" alt="Logo">
+                                    </div>
+                                    <p class="mail">To submit resumes/CV’s,<br>
+                                        please use Our 
+                                        tmanaswiniarkula@gmail
+                                        .com</p>
+                                </div>
+                            </div>
+
+                            <div class="class4">
+                                <div class="customer">
+                                    <div class="logo-cus">
+                                        <img src="land.jpg" alt="Logo">
+                                    </div>
+                                    <div class="customer-content">
+                                        <p class="customer-info">
+                                            customer service tmanaswiniarkula@gmail
+                                            .com<br><br>
+                                        </p>
+                                        <p class="customer-details">
+                                            Please contact the customer service email
+                                            (tmanaswiniarkula@gmail.
+                                            com) to provide feedback or make an inquiry.
+                                            Please refrain from sending promotional or marketing-related offers to these emails.
+                                            Our website does not host any form of advertisement.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- Map Container -->
+                <div id="map"></div>
+                <!-- Your script for Google Maps -->
+                <script>
+                    function initMap() {
+                        var myLatLng = {lat: 13.6149285, lng: 74.7319929};
+                
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                            center: myLatLng,
+                            zoom: 15
+                        });
+                
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            title: 'Your Location'
+                        });
+                    }
+                </script>
+                <!-- Google Maps API script -->
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALw0wy1q-u3zpva2P-oimmblCzBYHlkSU&callback=initMap" async defer></script>
+            </main>
+        </h3>
+    </div>
+
+</body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+    import { getDatabase, ref, set, child } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBYZncpBPbefy397jxXD4ROzs-kl-SxV7Q",
+        authDomain: "satish1-6088a.firebaseapp.com",
+        projectId: "satish1-6088a",
+        storageBucket: "satish1-6088a.appspot.com",
+        messagingSenderId: "536634587522",
+        appId: "1:536634587522:web:14bc09ce2696055c4c779b",
+        measurementId: "G-QTRT3TG0H6"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getDatabase(app);
+
+    // References
+    document.getElementById("submit").addEventListener('click', function (e) {
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const number = document.getElementById("number").value;
+        const subject = document.getElementById("subject").value;
+        const message = document.getElementById("Message").value;
+        const dateFormat = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const timeFormat = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        const currentDate = dateFormat.format(new Date());
+        const currentTime = timeFormat.format(new Date());
+        const PrimaryKey = Math.floor(new Date().getTime() / 1000);
+
+
+        // Store user data in Firebase
+        set(ref(db, 'ContactUsInfo/' + PrimaryKey), {
+            username: username,
+            email: email,
+            number: number,
+            subject: subject,
+            Message: message,
+            status: 'notContacted',
+            date: currentDate
+
+        }).then(() => {
+            alert("Data stored Successfully");
+        }).catch((error) => {
+            alert("Can't store Information");
+            
+        });
+    });
+    </script>
+</html>

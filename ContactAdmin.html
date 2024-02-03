@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #contactTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #contactTable th,
+        #contactTable td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        #contactTable th {
+            background-color: #24a376;
+            color: #fff;
+        }
+
+        #contactTable tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #contactTable tbody tr:hover {
+            background-color: #e0f7fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <main>
+            <!-- Your existing HTML content here -->
+
+            <!-- Table to display retrieved data -->
+            <table id="contactTable" border>
+                <thead>
+                    <tr>
+                        <th>SLNo</th>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact No</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated here dynamically -->
+                </tbody>
+            </table>
+
+        </main>
+    </div>
+    <!-- Table to display contacted entries -->
+    <table id="contactedTable" border>
+        <thead>
+            <tr>
+                <th>SLNo</th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact No</th>
+                <th>Subject</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data for contacted entries will be populated here dynamically -->
+        </tbody>
+    </table>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, child, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYZncpBPbefy397jxXD4ROzs-kl-SxV7Q",
+            authDomain: "satish1-6088a.firebaseapp.com",
+            projectId: "satish1-6088a",
+            storageBucket: "satish1-6088a.appspot.com",
+            messagingSenderId: "536634587522",
+            appId: "1:536634587522:web:14bc09ce2696055c4c779b",
+            measurementId: "G-QTRT3TG0H6"
+        };
+        const app = initializeApp(firebaseConfig);
+
+        const db = getDatabase();
+        const contactUsRef = ref(db, 'ContactUsInfo');
+
+        function fetchDataAndDisplay() {
+            get(child(contactUsRef, '/')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    document.querySelector('#contactTable tbody').innerHTML = '';
+
+                    let serialNumber = 1;
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            const rowData = data[key];
+                            const tableRow = `
+                                <tr>
+                                    <td>${serialNumber}</td>
+                                    <td>${rowData.date}</td>
+                                    <td>${rowData.username}</td>
+                                    <td>${rowData.email}</td>
+                                    <td>${rowData.number}</td>
+                                    <td>${rowData.subject}</td>
+                                    <td>${rowData.Message}</td>
+                                    <td><button data-key="${key}"  id="button">Contacted</button></td>
+                                </tr>
+                            `;
+                            document.querySelector('#contactTable tbody').insertAdjacentHTML('afterbegin', tableRow);
+                            serialNumber++;
+                        }
+                    }
+                } else {
+                    alert('No data found.');
+                }
+            }).catch((error) => {
+                alert('Error fetching data:', error);
+            });
+        }
+
+        // ...
+
+        function handleDeleteButtonClick(button) {
+            const key = button.getAttribute('data-key');
+
+            // Get the row data
+            const rowData = {
+                date: document.querySelector(`#contactTable tbody tr[data-key="${key}"] td:nth-child(2)`).innerText,
+                username: document.querySelector(`#contactTable tbody tr[data-key="${key}"] td:nth-child(3)`).innerText,
+                email: document.querySelector(`#contactTable tbody tr[data-key="${key}"] td:nth-child(4)`).innerText,
+                number: document.querySelector(`#contactTable tbody tr[data-key="${key}"] td:nth-child(5)`).innerText,
+                subject: document.querySelector(`#contactTable tbody tr[data-key="${key}"] td:nth-child(6)`).innerText,
+                Message: document.querySelector(`#contactTable tbody tr[data-key="${key}"] td:nth-child(7)`).innerText,
+            };
+
+            // Add the row data to the contacted table
+            const contactedTableRow = `
+        <tr>
+            <td>${rowData.date}</td>
+            <td>${rowData.username}</td>
+            <td>${rowData.email}</td>
+            <td>${rowData.number}</td>
+            <td>${rowData.subject}</td>
+            <td>${rowData.Message}</td>
+        </tr>
+    `;
+            document.querySelector('#contactedTable tbody').insertAdjacentHTML('afterbegin', contactedTableRow);
+
+            // Remove the row from the main table
+            document.querySelector(`#contactTable tbody tr[data-key="${key}"]`).remove();
+        }
+
+        // ...
+
+
+        fetchDataAndDisplay();
+
+    </script>
+</body>
+
+</html>

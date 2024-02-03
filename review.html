@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="Review.css">
+  <title>Review Page</title>
+</head>
+
+<body>
+  <div class="reviews-container" id="reviews-container"><!-- display the reviews here --></div>
+  <div class="review-container" id="review-container">
+    <h2>Leave a Review</h2>
+    <input type="text" id="name-input" placeholder="Enter Your Name">
+    <textarea placeholder="Write your review..." rows="4" cols="60"
+      style="border-radius: 8px; margin-bottom:-2%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.789);"></textarea><br><br>
+    <div>
+      <span class="star" onclick="rate(1)">★</span>
+      <span class="star" onclick="rate(2)">★</span>
+      <span class="star" onclick="rate(3)">★</span>
+      <span class="star" onclick="rate(4)">★</span>
+      <span class="star" onclick="rate(5)">★</span>
+    </div>
+
+    <p id="rating-text">Rating: <span id="current-rating">0</span></p>
+
+    <button onclick="submitReview()" id="submit" style="height: 38px; border-radius:20px">Submit</button>
+
+  </div>
+
+  <script>
+    let currentRating = 0;
+
+    function rate(stars) {
+      currentRating = stars;
+      updateRatingText();
+    }
+
+    function updateRatingText() {
+      document.getElementById('current-rating').innerText = currentRating;
+      highlightStars();
+    }
+
+    function highlightStars() {
+      const stars = document.querySelectorAll('.star');
+      stars.forEach((star, index) => {
+        if (index < currentRating) {
+          star.classList.add('selected');
+        } else {
+          star.classList.remove('selected');
+        }
+      });
+    }
+
+    function submitReview() {
+      const reviewText = document.querySelector('textarea').value;
+      if (currentRating === 0) {
+        console.log('Please rate your experience before submitting.');
+      } else {
+        console.log(`Review submitted!`);
+      }
+    }
+
+  </script>
+
+</body>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, child, get, remove, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBYZncpBPbefy397jxXD4ROzs-kl-SxV7Q",
+    authDomain: "satish1-6088a.firebaseapp.com",
+    projectId: "satish1-6088a",
+    storageBucket: "satish1-6088a.appspot.com",
+    messagingSenderId: "536634587522",
+    appId: "1:536634587522:web:14bc09ce2696055c4c779b",
+    measurementId: "G-QTRT3TG0H6"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // Initialize Firestore
+
+  document.getElementById("submit").addEventListener('click', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('name-input').value;
+    const reviewText = document.querySelector('textarea').value;
+    const dateFormat = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const timeFormat = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+    const currentDate = dateFormat.format(new Date());
+    const currentTime = timeFormat.format(new Date());
+    const PrimaryKey = Math.floor(new Date().getTime() / 1000);
+
+
+    // Assuming name, currentRating, and reviewText are variables containing user input
+
+    if (!name || !currentRating || !reviewText) {
+      // Check if any of the required fields are empty
+      alert("Please fill in all the information (name, rating, and text) before submitting the review.");
+    } else {
+      // All required fields are filled, proceed to store in Firebase
+      set(ref(db, 'Reviews/' + PrimaryKey), {
+        name: name,
+        rating: currentRating,
+        text: reviewText,
+        profilePicture: 'https://images.vexels.com/media/users/3/147101/isolated/preview/b4a49d4b864c74bb73de63f080ad7930-instagram-profile-button-by-vexels.png',
+        date: currentDate
+      }).then(() => {
+        alert("Review stored Successfully");
+      }).catch((error) => {
+        alert("Can't store Information");
+      });
+    }
+
+  });
+
+  const reviewsRef = ref(db, 'Reviews');
+
+  // Listen for changes in the reviews data
+  onValue(reviewsRef, (snapshot) => {
+    const reviewsContainer = document.getElementById('reviews-container');
+    reviewsContainer.innerHTML = ''; // Clear previous reviews
+
+    // Convert the snapshot to an array and reverse it
+    const reviewsArray = [];
+    snapshot.forEach((childSnapshot) => {
+      const reviewData = childSnapshot.val();
+      reviewsArray.push(reviewData);
+    });
+    const reversedReviews = reviewsArray.reverse();
+
+    // Loop through each review in the reversed array
+    reversedReviews.forEach((reviewData) => {
+      // Create a review box
+      const reviewBox = document.createElement('div');
+      reviewBox.className = 'review-box';
+
+      // Display profile picture
+      const profilePicture = document.createElement('img');
+      profilePicture.src = reviewData.profilePicture;
+      profilePicture.alt = 'Profile Picture';
+      profilePicture.className = 'profile-picture';
+      reviewBox.appendChild(profilePicture);
+
+      // Display name
+      const displayName = document.createElement('p');
+      displayName.textContent = reviewData.name;
+      displayName.className = 'profile-picture'; // Set the class name
+      reviewBox.appendChild(displayName);
+
+      // Display review text
+      const reviewText = document.createElement('p');
+      reviewText.textContent = reviewData.text;
+      reviewText.className = 'review-text';
+      reviewBox.appendChild(reviewText);
+
+      // Display star rating
+      const starRating = document.createElement('div');
+      starRating.className = 'star-rating';
+
+      // Filling stars with color based on reviewData.rating
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('span');
+        star.innerHTML = '★';
+
+        // Fill the star with color if i is less than or equal to reviewData.rating
+        star.style.color = i <= reviewData.rating ? 'gold' : 'black';
+
+        starRating.appendChild(star);
+      }
+
+      reviewBox.appendChild(starRating);
+
+
+      // Append the review box to the container
+      reviewsContainer.appendChild(reviewBox);
+    });
+  });
+</script>
+
+</html>

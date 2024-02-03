@@ -1,0 +1,238 @@
+.class2,
+.class3,
+.class4 {
+    margin-top: 31px;
+    position: relative;
+    margin-bottom: 48px;
+    border-radius: 10px;
+    color: white;
+    width: 70%;
+    padding-left: 100px;
+}
+
+.main {
+    max-width: 800px;
+    margin: 20px 0 20px auto; 
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex; 
+    border-radius: 10px;
+    margin-bottom: 10px;
+    opacity: 85%;
+}
+
+input[type="submit"] {
+    background: #21936b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bolder;
+    font-size: 90%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    background-position: center;
+    background-image: url('con1.jpg');
+    background-size: cover;
+    background-attachment: fixed; 
+    height: 90vh;
+}
+
+h2{
+    color: #da1e36; 
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    font-size: 150%;
+}
+
+.banner img{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    position: relative;
+}
+
+#username,
+#number,
+#subject,
+#email,
+#Message {
+    width: 300px;
+    height: 40px;
+    border: 1px solid #cccccc;
+    box-shadow: 3px 3px 3px #e5e5e5;
+}
+
+.telephone-box {
+    margin-top: 31px;
+    position: relative;
+    background: #24a376;
+    margin-bottom: 48px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.22);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-size: 84%;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.logo-container img {
+    width: 45px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.telephone-number {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    left: 50%;
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+}
+
+.mail {
+    margin-top: 1px; 
+    position: relative;
+    background: #24a376;
+    margin-bottom: -15px;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    font-size: 95%;
+}
+
+.mail p {
+    justify-content: left;
+    text-align: left;
+}
+
+.logo-cus {
+    text-align: center;
+    margin-top: -50px; 
+}
+
+.logo-cus img {
+    width: 48px;
+    height: auto;
+    display: block;
+    margin: 10px;
+    border-radius: 50%;
+}
+
+.customer p {
+    text-align: center; 
+    margin-top: 20px;
+}
+
+.new {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10px;
+    border-radius: 50px;
+}
+
+.customer {
+    margin-top: 0px;
+    position: relative;
+    background: #24a376;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    text-align: left;
+    font-size: 90%;
+}
+
+.customer p {
+    text-align: left;
+    margin-top: 0px;
+}
+
+.customer-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-info {
+    background: #24a376;
+    padding: 0px;
+    border-radius: 0%;
+    margin-bottom: 0px;
+}
+
+.customer-details {
+    background-color: #42a583;
+    padding: 0px;
+    border-radius: 5px;
+}
+
+/* General styling for larger screens */
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #212529;
+}
+
+.class2, .class3, .class4 {
+    width: 70%;
+    padding-left: 100px;
+}
+
+/* Responsive styling for smaller screens */
+@media only screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .class2, .class3, .class4 {
+        width: 100%;
+        padding-left: 20px;
+    }
+
+    #map {
+        height: 300px; /* Adjust the map height for smaller screens */
+    }
+    
+    /* Add any additional responsive styles as needed */
+}

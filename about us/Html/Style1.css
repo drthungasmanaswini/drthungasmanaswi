@@ -1,0 +1,54 @@
+.card{
+  max-height: 650px;
+  max-width: 1500px;
+  background-color: rgba(255,255,255,0.9);
+  margin-right: 3%;
+  margin-top: 2%;
+  margin-bottom: 0%;
+  text-align:center;
+  border-radius: 5%;
+  float:right;
+  margin-left: 40%;
+  margin-right: 6%;
+  overflow-y: scroll; 
+  border-radius: 2%;
+  padding: 1%;
+}
+.card-heading{
+  text-align: center;
+  text-decoration: underline 2px ;
+  font-style: oblique;
+  color: brown;
+  background-color:peachpuff;
+  font-size: 35px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 1000;
+}
+.title{
+  font-size: x-large;
+  background-color:lightseagreen;
+  border-radius: 5%;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: white;
+}
+.card-text{
+  text-align: center;
+  color: black;
+  font-size:18px;
+  font-weight: 100;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.your{
+  font-size:larger;
+  color: brown;
+  text-align: left;
+}
+.ceoname{
+  text-align: left;
+  font-family: sans-serif;
+}
+.last{
+  text-align: left;
+  color: blue;
+  text-align: left;
+}
